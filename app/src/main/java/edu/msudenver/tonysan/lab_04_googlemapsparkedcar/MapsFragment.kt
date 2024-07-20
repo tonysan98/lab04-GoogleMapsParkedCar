@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -39,6 +40,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     // this holds the user's location as a marker
     private var marker: Marker? = null
+    private lateinit var viewModel: ParkingLocationViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +58,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity()).get(ParkingLocationViewModel::class.java)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -75,6 +80,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         binding.btParkedHere.setOnClickListener {
             if (hasLocationPermission()) {
                 moveCarToCurrentLocation()
+
             } else {
                 requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
             }
@@ -188,11 +194,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             .create().show()
     } // end showPermissionRationale
 
+    // This fun will move the car to the user's current location and it will also update the viewModel
+    // to update the location
     private fun moveCarToCurrentLocation() {
         fusedLocationProviderClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 val userLocation = LatLng(location.latitude, location.longitude)
                 addOrMoveCarMarker(userLocation)
+                viewModel.parkingLocation.value = "${location.latitude}, ${location.longitude}"
             }
         }
     }
