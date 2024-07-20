@@ -33,3 +33,6 @@ The app requires the following permissions:
 2. Grant location permissions if prompted.
 3. Tap anywhere on the map to mark the location of your parked car.
 4. Use the "Parked Here" marker to find your car's location later.
+
+### Completion Date
+7/19/2024
