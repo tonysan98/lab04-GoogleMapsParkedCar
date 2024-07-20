@@ -40,6 +40,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     // this holds the user's location as a marker
     private var marker: Marker? = null
+    // this holds the parking location live
     private lateinit var viewModel: ParkingLocationViewModel
 
 

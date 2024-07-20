@@ -1,0 +1,26 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Italic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\csgray\c0\c0;}
+\margl1440\margr1440\vieww18000\viewh14000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 \
+Group: Tony Sandoval & Adam Quach\
+\
+1. To handle permissions and location services we modified the Android manifest to include ACCESS_FINE_LOCATION permission. We implemented getLocation() method which uses fusedLocationProviderClient.lastLocation to asynchronously fetch the user's last known location. Then updateMapLocation(userLocation) updates the map's camera to the user's current location. For the car icon we implemented getBitmapDescriptorFromVector(R.drawable.target_icon) which converts a vector drawable into a BitmapDescriptor for use as a marker icon. For the functionality we implemented a onclickListener to the button which fetched the current location, updated the viewmodel and then added the marker to the user's location.\
+\
+2. In the ParkingLocationViewModel class, we created a variable to hold the live data from the user car\'92s location. We used 
+\f1\i val 
+\f0\i0 parkingLocation: MutableLiveData<String> = MutableLiveData() for this. On the detail fragment class we created a viewModel variable as an instance of the ParkingLocationViewModel class. Then we implemented the observeParkingLocation() method to get the location and add it to the variable we instantiated. The challenge we faced was how to tie it all together back to the MapsFragment class. We had to play around with the onViewCreated() method until we got it to work as intended. We ended up realizing that we had to add the functionality on the ClickLister for the button. We had to implement another method: moveCarToCurrentLocation(). \
+\
+3. When going from the Maps Activity to the maps Fragment, we started off by refactoring the file. We then extended the fragment instead of activity. This messed with the life cycle and we had to rewrite the binding (ex: binding = FragmentMapsBinding.inflate(
+\f1\i layoutInflater
+\f0\i0 )). The difficulties were in making the methods/fun that we had already written work with the fragment. \
+\
+4. We decided to divide the screen by giving the maps fragment the majority of the screen space (top of the screen). We considered that since only the coordinates were gonna show on the bottom, the bottom fragment did not really need too much real estate. \
+\
+5. We did learn a lot in this lab. The main thing was implementing the ViewModel and learning how to pass live data from a fragment to another. We used Copilot to troubleshoot and as a guide and to derive meaningful informative comments. We also used the powerpoint from class regarding the implementation of the google maps functions. \
+\
+6. The most challenging part of the lab for us was implementing the MapsFragment class with all of the methods and private helper functions. We had to research, look at documentation, powerpoints from class and use copilot to help us. I enjoyed learning about the ViewModel and how to work with live data and passing it to different fragments. We intend to use this in our projects because it is very useful in the real world to know how to interact with live data in our apps. \
+}

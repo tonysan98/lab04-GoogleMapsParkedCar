@@ -1,63 +1,9 @@
-override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+Group: Tony Sandoval & Adam Quach
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-                    val mapFragment = supportFragmentManager
-                        .findFragmentById(R.id.map) as SupportMapFragment
-                    mapFragment.getMapAsync(this) // Get the googleMap object asynchronously
+1. To handle permissions and location services we modified the Android manifest to include ACCESS_FINE_LOCATION permission.
+    We implemented getLocation() method which uses fusedLocationProviderClient.lastLocation to asynchronously fetch the user's last known location.
+    Then updateMapLocation(userLocation) updates the map's camera to the user's current location. For the car icon we implemented getBitmapDescriptorFromVector(R.drawable.target_icon)
+    which converts a vector drawable into a BitmapDescriptor for use as a marker icon. For the functionality we implemented a onclickListener to the button
+    which fetched the current location, updated the viewmodel and then added the marker to the user's location.
 
-                    // Register a launcher to handle the permission request result
-                    requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                            isGranted ->
-                        if (isGranted) {
-                            getLocation() // Permission granted, get the location
-                        } else {  // Permission denied, show rationale and request again
-                            showPermissionRationale {
-                                requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-                            }
-                        }
-                    }
-
-                    // implement an onClick listener to the button
-                    binding.btParkedHere.setOnClickListener {
-                        if (hasLocationPermission()) {
-                            moveCarToCurrentLocation()
-                        } else {
-                            requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-                        }
-                    }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState) // initializes the activity
-
-            binding = ActivityMapsBinding.inflate(layoutInflater) // inflate the layout
-            setContentView(binding.root) // set the content view
-
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
-            mapFragment.getMapAsync(this) // Get the googleMap object asynchronously
-
-            // Register a launcher to handle the permission request result
-            requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                    isGranted ->
-                if (isGranted) {
-                    getLocation() // Permission granted, get the location
-                } else {  // Permission denied, show rationale and request again
-                    showPermissionRationale {
-                        requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-                    }
-                }
-            }
-
-            // implement an onClick listener to the button
-            binding.btParkedHere.setOnClickListener {
-                if (hasLocationPermission()) {
-                    moveCarToCurrentLocation()
-                } else {
-                    requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-                }
-            }
-
-        } // end onCreate
+2.

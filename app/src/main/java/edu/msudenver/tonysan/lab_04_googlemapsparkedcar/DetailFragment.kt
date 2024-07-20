@@ -30,6 +30,7 @@ class DetailFragment : Fragment() {
         return view
     }
 
+    // helper fun to get the location from the user's parked car
     private fun observeParkingLocation() {
         viewModel.parkingLocation.observe(viewLifecycleOwner) { newLocation ->
             locationTextView.text = newLocation ?: "Location not set"
